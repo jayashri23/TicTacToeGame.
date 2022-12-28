@@ -7,19 +7,24 @@ public class Toss {
     static Scanner sc = new Scanner(System.in);
     private static char computer;
     private static char player;
-    private static  char[][] gameBoard = {{'_', '|', '_', '|', '_'}, {'_', '|', '_', '|', '_'}, {' ', '|', ' ', '|', ' '}};
+    static char[][] gameBoard = {{'_', '|', '_', '|', '_'}, {'_', '|', '_', '|', '_'}, {' ', '|', ' ', '|', ' '}};
+    static int playerScore = 0;
+    static int computerScore = 0;
+
     public static void main(String[] args) {
         System.out.println("\n*** WELCOME TO TIC TAC TOE GAME ***");
-        System.out.println("Tic Tac Toe Board: ");
-        displayBoard(gameBoard);
-        tossToPlay();
+        dispayBoard(gameBoard);
         chooseLetter();
         System.out.println("Show Current Board: ");
-        displayBoard(gameBoard);
+        dispayBoard(gameBoard);
         playerMove(gameBoard);
         computerMove(gameBoard);
+        tossToPlay();
+        isWnnerOrTie(gameBoard);
+        //ChooseCorner(gameBoard);
     }
-    public static void displayBoard(char[][] gameBoard) {  ///Display the game board
+
+    public static void dispayBoard(char[][] gameBoard) {  ///Display the game board
         for (int row = 0; row < gameBoard.length; row++) {  /// for the rows
             for (int col = 0; col < gameBoard[0].length; col++) {// for column
                 System.out.print(gameBoard[row][col]);
@@ -27,6 +32,7 @@ public class Toss {
             System.out.println();
         }
     }
+
     public static void chooseLetter() {
         System.out.println("Choose Letter X or O");
         char letter = sc.next().charAt(0);
@@ -37,7 +43,8 @@ public class Toss {
         }
         System.out.println("Player Choose letter:" + player);
     }
-    public static void playerMove(char[][] gameBoard) {  //Ask player Position where would like to move
+
+    public static void playerMove(char[][] gameBoard) {  //Ask player Position where whould like to move
         System.out.println("Please make a move. (1-9)");
         System.out.println("-----------------------------------------------------------");
         int move = sc.nextInt();
@@ -48,72 +55,73 @@ public class Toss {
             result = isValidMove(move, gameBoard);
         }
         System.out.println("Player moved at position " + move);
-        updateBoard(move,1,gameBoard);
-    }
-    public static void computerMove(char [][] gameBoard){// For Playing computer
-        Random rand = new Random();  // used random function to play randomly by computer
-        int move = rand.nextInt(9)+1;
-        boolean result = isValidMove(move,gameBoard);
-        while(!result){
-            move = rand.nextInt(9)+1;
-            result = isValidMove(move, gameBoard);
-        }
-        System.out.println("Computer moved at position "+ move);
-        updateBoard(move,2,gameBoard);
+        updateBoard(move, 1, gameBoard);
     }
 
-    public static boolean isValidMove(int move, char[][] gameBoard) { // Takes Move input from player
+    public static void computerMove(char[][] gameBoard) {// For Playing computer
+        Random rand = new Random();  // used random function to play randomly by computer
+        int move = rand.nextInt(9) + 1;
+        boolean result = isValidMove(move, gameBoard);
+        while (!result) {
+            move = rand.nextInt(9) + 1;
+            result = isValidMove(move, gameBoard);
+        }
+        System.out.println("Computer moved at position " + move);
+        updateBoard(move, 2, gameBoard);
+    }
+
+    public static boolean isValidMove(int move, char[][] gameboard) { // Takes Move input from player
         switch (move) {
             case 1:
-                if (gameBoard[0][0] == '_') {  // if position empty then return true
+                if (gameboard[0][0] == '_') {  // if position empty then return true
                     return true;
                 } else {
                     return false;
                 }
             case 2:
-                if (gameBoard[0][2] == '_') {
+                if (gameboard[0][2] == '_') {
                     return true;
                 } else {
                     return false;
                 }
             case 3:
-                if (gameBoard[0][4] == '_') {
+                if (gameboard[0][4] == '_') {
                     return true;
                 } else {
                     return false;
                 }
             case 4:
-                if (gameBoard[1][0] == '_') {
+                if (gameboard[1][0] == '_') {
                     return true;
                 } else {
                     return false;
                 }
             case 5:
-                if (gameBoard[1][2] == '_') {
+                if (gameboard[1][2] == '_') {
                     return true;
                 } else {
                     return false;
                 }
             case 6:
-                if (gameBoard[1][4] == '_') {
+                if (gameboard[1][4] == '_') {
                     return true;
                 } else {
                     return false;
                 }
             case 7:
-                if (gameBoard[2][0] == ' ') {
+                if (gameboard[2][0] == ' ') {
                     return true;
                 } else {
                     return false;
                 }
             case 8:
-                if (gameBoard[2][2] == ' ') {
+                if (gameboard[2][2] == ' ') {
                     return true;
                 } else {
                     return false;
                 }
             case 9:
-                if (gameBoard[2][4] == ' ') {
+                if (gameboard[2][4] == ' ') {
                     return true;
                 } else {
                     return false;
@@ -122,66 +130,203 @@ public class Toss {
                 return false;
         }
     }
-    public static void updateBoard( int position, int player, char [][] gameBoard){
+
+    public static void updateBoard(int position, int player, char[][] gameBoard) {
         char character;
-        if(player==1){
+        if (player == 1) {
             character = 'X';   // player =1 having X character
-        }else{
+        } else {
             character = 'O';  // Computer =2 having O character
         }
-        switch (position){
+        switch (position) {
             case 1:
                 gameBoard[0][0] = character; //  if the player or computer chose first position.
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 2:
                 gameBoard[0][2] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 3:
                 gameBoard[0][4] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 4:
                 gameBoard[1][0] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 5:
                 gameBoard[1][2] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 6:
                 gameBoard[1][4] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 7:
                 gameBoard[2][0] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 8:
                 gameBoard[2][2] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             case 9:
                 gameBoard[2][4] = character;
-                displayBoard(gameBoard);
+                dispayBoard(gameBoard);
                 break;
             default:
                 break;
         }
     }
-    public static void tossToPlay(){
-        int tossResult=(int) (Math.floor(Math.random()*10)%2);
-        System.out.println("Tossing between Player and Computer who play first :");
-        if ((tossResult==HEAD))
-        {
+
+    public static void tossToPlay() {
+        int tossResult = (int) (Math.floor(Math.random() * 10) % 2);
+        if ((tossResult == HEAD)) {
+            System.out.println("Player Turn:");
             System.out.println("Player will start");
             playerMove(gameBoard);
-        }
-        else {
+        } else {
+            System.out.println("Computer Turn:");
             System.out.println("Computer will start");
             computerMove(gameBoard);
 
+        }
+    }
+
+    public static boolean isWnnerOrTie(char[][] gameboard) {// Checking if win condition has met is to check all spaces in combination are samw
+
+        //Horizontal Win
+        if (gameboard[0][0] == 'X' && gameboard[0][2] == 'X' && gameboard[0][4] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[0][0] == 'O' && gameboard[0][2] == 'O' && gameboard[0][4] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        if (gameboard[1][0] == 'X' && gameboard[1][2] == 'X' && gameboard[1][4] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[1][0] == 'O' && gameboard[1][2] == 'O' && gameboard[1][4] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        if (gameboard[2][0] == 'X' && gameboard[2][2] == 'X' && gameboard[2][4] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[2][0] == 'O' && gameboard[2][2] == 'O' && gameboard[2][4] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        //Vertical Wins
+        if (gameboard[0][0] == 'X' && gameboard[1][0] == 'X' && gameboard[2][0] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[0][0] == 'O' && gameboard[1][0] == 'O' && gameboard[2][0] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        if (gameboard[0][2] == 'X' && gameboard[1][2] == 'X' && gameboard[2][2] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[0][2] == 'O' && gameboard[1][2] == 'O' && gameboard[2][2] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        if (gameboard[0][4] == 'X' && gameboard[1][4] == 'X' && gameboard[2][4] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[0][4] == 'O' && gameboard[1][4] == 'O' && gameboard[2][4] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        //Diagonal Wins
+        if (gameboard[0][0] == 'X' && gameboard[1][2] == 'X' && gameboard[2][4] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[0][0] == 'O' && gameboard[1][2] == 'O' && gameboard[2][4] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        if (gameboard[2][0] == 'X' && gameboard[1][2] == 'X' && gameboard[0][4] == 'X') {
+            System.out.println("Player Wins");
+            playerScore++;
+            return true;
+        }
+        if (gameboard[2][0] == 'O' && gameboard[1][2] == 'O' && gameboard[0][4] == 'O') {
+            System.out.println("Computer Wins");
+            computerScore++;
+            return true;
+        }
+        if (gameboard[0][0] != '_' && gameboard[0][2] != '_' && gameboard[0][4] != '_' && gameboard[1][0] != '_' &&
+                gameboard[1][2] != '_' && gameboard[1][4] != '_' && gameboard[2][0] != ' ' && gameboard[2][2] != ' ' && gameboard[2][4] != ' ') {
+            System.out.println("Its a tie");
+            return true;
+        }
+        return false;
+    }
+
+    public static void ChooseCorner(char[][] gameboard) {
+        boolean corner = false;
+        for (int row = 0; row < gameBoard.length; row++) {  /// for the rows
+            for (int col = 0; col < gameBoard[0].length; col++) {// for column
+            }
+            System.out.println();
+        }
+        if (gameboard[0][0] == '_') {  // if position empty then return true
+            System.out.println("Corner 1 is available");
+            corner = true;
+        } else if (gameboard[0][4] == '_') {
+            System.out.println("Corner 3 is available");
+            corner = true;
+        } else if (gameboard[2][0] == ' ') {
+            System.out.println("Corner 7 is available");
+            corner = true;
+        } else if (gameboard[2][4] == ' ') {
+            System.out.println("Corner 9 is available");
+            corner = true;
+        }
+        if (corner!=true){
+            System.out.println("No corner availabel");
+            subsequentChoice(gameboard);
+        }
+
+    }
+    public static void subsequentChoice(char[][] gameboard) {
+        boolean middle=false;
+        if (gameboard[1][2] == '_') {
+            System.out.println("middle 5 is available");
+            middle= true;
+        }
+        if (gameboard[0][2] == '_') {  // if position empty then return true
+            System.out.println("Corner 2 is available");
+        } else if (gameboard[1][0] == '_') {
+            System.out.println("Corner 4 is available");
+        } else if (gameboard[1][4] == ' ') {
+            System.out.println("Corner 6 is available");
+        } else if (gameboard[2][2] == ' ') {
+            System.out.println("Corner 8 is available");
         }
     }
 }
