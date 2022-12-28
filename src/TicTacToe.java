@@ -21,7 +21,46 @@ public class TicTacToe {
         computerMove(gameBoard);
         tossToPlay();
         isWnnerOrTie(gameBoard);
-        ChooseCorner(gameBoard);
+        //ChooseCorner(gameBoard);
+        boolean gameOver = false;
+        boolean playAgain = true;
+
+        while (playAgain) { //ask to play again once win or tie player got.
+            while (!gameOver) {
+                playerMove(gameBoard);
+                gameOver = isWnnerOrTie(gameBoard);
+                if (gameOver) {
+                    break;
+                }
+                computerMove(gameBoard);
+                gameOver = isWnnerOrTie(gameBoard);
+                if (gameOver) {
+                    break;
+                }
+            }
+            System.out.println("Player Score: " + playerScore);
+            System.out.println("Computer Score: " + computerScore);
+            System.out.println("Would you like to play again? Y/N");
+            sc.nextLine();
+            String result = sc.nextLine();
+            switch (result) {
+                case "Y":
+                case "y":
+                    playAgain = true;
+                    System.out.println("Dope! Let's play again");
+                    resetBoard(gameBoard);
+                    gameOver = false;
+                    dispayBoard(gameBoard);
+                    break;
+                case "N":
+                case "n":
+                    playAgain = false;
+                    System.out.println("Thanks for playing");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public static void dispayBoard(char[][] gameBoard) {  ///Display the game board
@@ -281,13 +320,15 @@ public class TicTacToe {
         }
         if (gameboard[0][0] != '_' && gameboard[0][2] != '_' && gameboard[0][4] != '_' && gameboard[1][0] != '_' &&
                 gameboard[1][2] != '_' && gameboard[1][4] != '_' && gameboard[2][0] != ' ' && gameboard[2][2] != ' ' && gameboard[2][4] != ' ') {
-            System.out.println("Its a tie");
+            System.out.println("-------------Board is full-------------------");
+            System.out.println("Its a tie........Try Again");
             return true;
         }
         return false;
     }
 
     public static void ChooseCorner(char[][] gameboard) {
+        boolean corner = false;
         for (int row = 0; row < gameBoard.length; row++) {  /// for the rows
             for (int col = 0; col < gameBoard[0].length; col++) {// for column
             }
@@ -295,14 +336,50 @@ public class TicTacToe {
         }
         if (gameboard[0][0] == '_') {  // if position empty then return true
             System.out.println("Corner 1 is available");
+            corner = true;
         } else if (gameboard[0][4] == '_') {
             System.out.println("Corner 3 is available");
+            corner = true;
         } else if (gameboard[2][0] == ' ') {
             System.out.println("Corner 7 is available");
+            corner = true;
         } else if (gameboard[2][4] == ' ') {
             System.out.println("Corner 9 is available");
+            corner = true;
+        }
+        if (corner != true) {
+            System.out.println("No corner available");
+            subsequentChoice(gameboard);
+        }
+
+    }
+
+    public static void subsequentChoice(char[][] gameboard) {
+        boolean middle = false;
+        if (gameboard[1][2] == '_') {
+            System.out.println("middle 5 is available");
+            middle = true;
+        }
+        if (gameboard[0][2] == '_') {  // if position empty then return true
+            System.out.println("Corner 2 is available");
+        } else if (gameboard[1][0] == '_') {
+            System.out.println("Corner 4 is available");
+        } else if (gameboard[1][4] == ' ') {
+            System.out.println("Corner 6 is available");
+        } else if (gameboard[2][2] == ' ') {
+            System.out.println("Corner 8 is available");
         }
     }
+
+    public static void resetBoard(char[][] gameBoard) { // set the board back to beginning state.
+        gameBoard[0][0] = '_';
+        gameBoard[0][2] = '_';
+        gameBoard[0][4] = '_';
+        gameBoard[1][0] = '_';
+        gameBoard[1][2] = '_';
+        gameBoard[1][4] = '_';
+        gameBoard[2][0] = ' ';
+        gameBoard[2][2] = ' ';
+        gameBoard[2][4] = ' ';
+    }
 }
-
-
